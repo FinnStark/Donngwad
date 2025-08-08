@@ -1,3 +1,7 @@
+# 0) Nettoyer l’ancien patch
+rm -f donngwad.patch
+
+# 1) Créer le patch de correction (copie-colle tout ce bloc)
 cat <<'EOF' > fix_parse_errors.patch
 diff --git a/core/Game.gd b/core/Game.gd
 --- a/core/Game.gd
@@ -35,14 +39,14 @@ diff --git a/core/Game.gd b/core/Game.gd
 -        TickBus.emit_world_tick(TICK_WORLD)
 +extends Node
 +
-+var speed: float = 1.0 # 0,1,2,3 (0 = pause)
++var speed: float = 1.0
 +var rng: RandomNumberGenerator = RandomNumberGenerator.new()
 +
-+var stocks: Dictionary = {} # clés: "water","food","wood","stone"
++var stocks: Dictionary = {}
 +var policies: Dictionary = {"military":0.2,"economy":0.5,"social":0.2,"environment":0.1}
 +
-+const TICK_LOCAL := 0.1   # 100 ms
-+const TICK_WORLD := 1.0   # 1 s
++const TICK_LOCAL := 0.1
++const TICK_WORLD := 1.0
 +
 +var _acc_local: float = 0.0
 +var _acc_world: float = 0.0
@@ -57,7 +61,6 @@ diff --git a/core/Game.gd b/core/Game.gd
 +    var d: float = delta * speed
 +    _acc_local += d
 +    _acc_world += d
-+    # Utilise l'autoload existant (évite les appels statiques si l'autoload n'a pas compilé)
 +    var bus = get_node("/root/TickBus")
 +    while _acc_local >= TICK_LOCAL:
 +        _acc_local -= TICK_LOCAL
@@ -78,3 +81,9 @@ diff --git a/core/TickBus.gd b/core/TickBus.gd
  func emit_local_tick(dt): emit_signal("local_tick", dt)
  func emit_world_tick(dt): emit_signal("world_tick", dt)
 EOF
+
+# 2) Appliquer et pousser
+git apply fix_parse_errors.patch
+git add core/Game.gd core/TickBus.gd
+git commit -m "Fix parse errors (types + autoload calls)"
+git push
