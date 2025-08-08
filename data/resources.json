@@ -1,0 +1,6 @@
+{
+  "water":  { "base_price": 1.0, "mass": 1.0, "volume": 1.0, "perishable": false },
+  "food":   { "base_price": 2.0, "mass": 0.5, "volume": 0.5, "perishable": true },
+  "wood":   { "base_price": 1.5, "mass": 1.0, "volume": 2.0, "perishable": false },
+  "stone":  { "base_price": 1.2, "mass": 2.5, "volume": 2.0, "perishable": false }
+}
