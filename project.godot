@@ -9,34 +9,64 @@
 config_version=5
 
 [application]
+
 config/name="Donngwad"
-run/main_scene="res://ui/TitleScreen.tscn"
-config/icon="res://assets/donngwad_logo.png"
 config/version="0.1"
+run/main_scene="res://ui/TitleScreen.tscn"
 config/features=PackedStringArray("4.4", "Forward Plus")
+config/icon="res://assets/donngwad_logo.png"
 
 [autoload]
+
 Game="*res://core/Game.gd"
 TickBus="*res://core/TickBus.gd"
 
 [input]
-ui_up={
+
+ui_accept={
 "deadzone": 0.5,
-"events": [ { "type": "key", "scancode": 87 }, { "type": "key", "scancode": 16777232 } ]
-}
-ui_down={
-"deadzone": 0.5,
-"events": [ { "type": "key", "scancode": 83 }, { "type": "key", "scancode": 16777234 } ]
+"events": [{
+"scancode": 32,
+"type": "key"
+}]
 }
 ui_left={
 "deadzone": 0.5,
-"events": [ { "type": "key", "scancode": 65 }, { "type": "key", "scancode": 16777231 } ]
+"events": [{
+"scancode": 65,
+"type": "key"
+}, {
+"scancode": 16777231,
+"type": "key"
+}]
 }
 ui_right={
 "deadzone": 0.5,
-"events": [ { "type": "key", "scancode": 68 }, { "type": "key", "scancode": 16777233 } ]
+"events": [{
+"scancode": 68,
+"type": "key"
+}, {
+"scancode": 16777233,
+"type": "key"
+}]
 }
-ui_accept={
+ui_up={
 "deadzone": 0.5,
-"events": [ { "type": "key", "scancode": 32 } ]
+"events": [{
+"scancode": 87,
+"type": "key"
+}, {
+"scancode": 16777232,
+"type": "key"
+}]
+}
+ui_down={
+"deadzone": 0.5,
+"events": [{
+"scancode": 83,
+"type": "key"
+}, {
+"scancode": 16777234,
+"type": "key"
+}]
 }
