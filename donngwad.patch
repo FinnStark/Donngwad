@@ -1,51 +1,28 @@
-cat <<'EOF' > add_titlescreen.patch
-diff --git a/ui/TitleScreen.gd b/ui/TitleScreen.gd
+cat <<'EOF' > add_colony.patch
+diff --git a/local3d/Colony.tscn b/local3d/Colony.tscn
 new file mode 100644
 --- /dev/null
-+++ b/ui/TitleScreen.gd
++++ b/local3d/Colony.tscn
 @@
-+extends CanvasLayer
++[gd_scene format=3 uid="uid_colony"]
 +
-+@onready var btn_new := $VBoxContainer/BtnNew
-+@onready var btn_quit := $VBoxContainer/BtnQuit
++[node name="Colony" type="Node3D"]
 +
-+func _ready():
-+    btn_new.pressed.connect(_on_new_game)
-+    btn_quit.pressed.connect(func(): get_tree().quit())
++[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
++transform = Transform3D(1, 0, 0, 0, 0.866025, 0.5, 0, -0.5, 0.866025, 0, 5, 0)
++light_energy = 1.5
 +
-+func _on_new_game():
-+    get_tree().change_scene_to_file("res://local3d/Colony.tscn")
-diff --git a/ui/TitleScreen.tscn b/ui/TitleScreen.tscn
-new file mode 100644
---- /dev/null
-+++ b/ui/TitleScreen.tscn
-@@
-+[gd_scene format=3 uid="uid_titlescreen"]
++[node name="Camera3D" type="Camera3D" parent="."]
++transform = Transform3D(0.866025, -0.25, 0.433013, 0, 0.866025, 0.5, -0.5, -0.433013, 0.75, 8, 10, 8)
++fov = 60.0
 +
-+[ext_resource path="res://ui/TitleScreen.gd" type="Script" id=1]
-+[ext_resource path="res://assets/donngwad_logo.png" type="Texture2D" id=2]
++[node name="Ground" type="MeshInstance3D" parent="."]
++mesh = SubResource("PlaneMesh1")
++material_override = SubResource("StandardMaterial1")
 +
-+[node name="TitleScreen" type="CanvasLayer"]
-+script = ExtResource("1")
++[sub_resource type="PlaneMesh" id="PlaneMesh1"]
++size = Vector2(20, 20)
 +
-+[node name="TextureRect" type="TextureRect" parent="."]
-+texture = ExtResource("2")
-+stretch_mode = 5
-+
-+[node name="VBoxContainer" type="VBoxContainer" parent="."]
-+anchor_left = 0.5
-+anchor_top = 0.5
-+anchor_right = 0.5
-+anchor_bottom = 0.5
-+offset_left = -100.0
-+offset_top = -50.0
-+offset_right = 100.0
-+offset_bottom = 50.0
-+alignment = 1
-+
-+[node name="BtnNew" type="Button" parent="VBoxContainer"]
-+text = "Nouvelle Partie"
-+
-+[node name="BtnQuit" type="Button" parent="VBoxContainer"]
-+text = "Quitter"
++[sub_resource type="StandardMaterial3D" id="StandardMaterial1"]
++albedo_color = Color(0.2, 0.5, 0.2, 1)
 EOF
