@@ -1,28 +1,33 @@
-cat <<'EOF' > add_colony.patch
-diff --git a/local3d/Colony.tscn b/local3d/Colony.tscn
-new file mode 100644
---- /dev/null
-+++ b/local3d/Colony.tscn
+cat <<'EOF' > fix_autoload_names.patch
+diff --git a/core/Game.gd b/core/Game.gd
+--- a/core/Game.gd
++++ b/core/Game.gd
 @@
-+[gd_scene format=3 uid="uid_colony"]
-+
-+[node name="Colony" type="Node3D"]
-+
-+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-+transform = Transform3D(1, 0, 0, 0, 0.866025, 0.5, 0, -0.5, 0.866025, 0, 5, 0)
-+light_energy = 1.5
-+
-+[node name="Camera3D" type="Camera3D" parent="."]
-+transform = Transform3D(0.866025, -0.25, 0.433013, 0, 0.866025, 0.5, -0.5, -0.433013, 0.75, 8, 10, 8)
-+fov = 60.0
-+
-+[node name="Ground" type="MeshInstance3D" parent="."]
-+mesh = SubResource("PlaneMesh1")
-+material_override = SubResource("StandardMaterial1")
-+
-+[sub_resource type="PlaneMesh" id="PlaneMesh1"]
-+size = Vector2(20, 20)
-+
-+[sub_resource type="StandardMaterial3D" id="StandardMaterial1"]
-+albedo_color = Color(0.2, 0.5, 0.2, 1)
+-extends Node
+-class_name Game
++extends Node
+@@
+ func _process(delta):
+     if speed <= 0.0: return
+-    var d := delta * speed
++    var d := delta * speed
+     _acc_local += d
+     _acc_world += d
+diff --git a/core/TickBus.gd b/core/TickBus.gd
+--- a/core/TickBus.gd
++++ b/core/TickBus.gd
+@@
+-extends Node
+-class_name TickBus
++extends Node
+ signal local_tick(dt)
+ signal world_tick(dt)
+ 
+ func emit_local_tick(dt): emit_signal("local_tick", dt)
+ func emit_world_tick(dt): emit_signal("world_tick", dt)
 EOF
+
+git apply fix_autoload_names.patch
+git add core/Game.gd core/TickBus.gd
+git commit -m "Fix: remove class_name to avoid autoload name clash"
+git push

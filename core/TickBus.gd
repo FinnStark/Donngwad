@@ -1,5 +1,4 @@
 extends Node
-class_name TickBus
 signal local_tick(dt)
 signal world_tick(dt)
 
