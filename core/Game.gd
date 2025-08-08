@@ -18,7 +18,7 @@ func _ready():
 
 func _process(delta):
 	if speed <= 0.0: return
-	var d := delta * speed
+	var d: float = delta * speed
 	_acc_local += d
 	_acc_world += d
 	while _acc_local >= TICK_LOCAL:
